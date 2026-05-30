@@ -3,34 +3,86 @@ from shinywidgets import output_widget, render_plotly
 import pandas as pd
 import plotly.express as px
 import numpy as np
-from src.preprocessing import preprocess_data
+from utils.preprocessing import preprocess_data
 
 
-app_ui = ui.page_fluid(
-    ui.h2("Análise Descritiva de Variável Quantitativa"),
+app_ui = ui.page_sidebar(
+    ui.sidebar(
 
-    ui.input_file(
-        "file",
-        "Selecione o arquivo CSV",
-        accept=[".csv"]
+        ui.h4("Controles"),
+
+        ui.input_file(
+            "file",
+            "Faça upload do arquivo CSV:",
+            accept=[".csv"]
+        ),
+
+        ui.input_select(
+            "variable",
+            "Selecione a variável quantitativa:",
+            choices=[]
+        ),
+    ),
+    #Serve para deixar os titulos da tabela centralizados
+    ui.tags.style("""
+        table {
+            width: 100%;
+        }
+
+        table thead th {
+            text-align: left;
+            white-space: nowrap;
+        }
+    """),
+    
+
+    ui.h2("Dashboard de Análise Descritiva"),
+
+    ui.navset_tab(
+        #TAB - Analise descritiva:
+        ui.nav_panel( "Analise descritiva",
+            ui.h2(),
+        # Graficos histograma e boxplot:
+            ui.layout_columns(
+                ui.card(
+                    ui.card_header("Histograma"),
+                    output_widget("histogram")
+                ),
+                ui.card(
+                    ui.card_header("Boxplot"),
+                    output_widget("boxplot")
+                )
+            ),
+            ui.h2(),
+        # Tabela de medidas estatisticas:
+            ui.div(
+                ui.card(
+                    ui.card_header("Estatísticas Descritivas"),
+                    ui.output_table("stats")
+                ),
+                style="max-width: 800px; margin: auto;"
+            ),
+        ),
+        #TAB - teste de hipotese:
+        ui.nav_panel(
+            "Teste de hipótese"
+        ),
+        #TAB - Intervalo de confiança 
+        ui.nav_panel(
+            "Intervalo de confiança "
+        ),
+
+        #TAB - Regressão linear 
+        ui.nav_panel(
+            "Regressão linear"
+        )
+        
+    
     ),
 
-    ui.input_select(
-        "variable",
-        "Selecione a variável quantitativa",
-        choices=[]
-    ),
 
-    ui.hr(),
-
-    ui.layout_columns(
-        output_widget("histogram"),
-        output_widget("boxplot")
-    ),
-
-    ui.hr(),
-
-    ui.output_table("stats")
+    theme = ui.Theme("slate"),
+    
 )
 
 def server(input, output, session):
@@ -42,7 +94,6 @@ def server(input, output, session):
 
         df = pd.read_csv(input.file()[0]["datapath"],delimiter=';')
         df = preprocess_data(df)
-        print(df.head())
         return df
     
 
@@ -72,7 +123,15 @@ def server(input, output, session):
         fig = px.histogram(
             df,
             x=var,
-            title=f"Histograma de {var}"
+            title=f"Distribuição da variável {var}"
+        )
+        fig.update_layout(
+            font=dict(color="white"),
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)",
+            xaxis_title=input.variable(),
+            yaxis_title="Frequência",
+            margin=dict(t=50, l=40, r=20, b=40)
         )
 
         return fig
@@ -88,8 +147,13 @@ def server(input, output, session):
         fig = px.box(
                 df,
                 y=var,
-                title=f"Boxplot de {var}"
+                title=f"Boxplot da variável {var}"
             )
+        fig.update_layout(
+            font=dict(color="white"),
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)"
+        )
 
         return fig
     
