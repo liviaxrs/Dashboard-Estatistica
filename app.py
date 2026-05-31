@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 from utils.preprocessing import preprocess_data
+from utils.confidence_interval import confidence_interval_ui, confidence_interval_server
 
 
 app_ui = ui.page_sidebar(
@@ -67,9 +68,10 @@ app_ui = ui.page_sidebar(
         ui.nav_panel(
             "Teste de hipótese"
         ),
-        #TAB - Intervalo de confiança 
+        #TAB - Intervalo de confiança
         ui.nav_panel(
-            "Intervalo de confiança "
+            "Intervalo de confiança",
+            confidence_interval_ui()
         ),
 
         #TAB - Regressão linear 
@@ -189,4 +191,6 @@ def server(input, output, session):
 
         return stats_df
     
+    confidence_interval_server(input, output, data)
+
 app = App(app_ui, server)
