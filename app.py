@@ -5,6 +5,7 @@ import plotly.express as px
 import numpy as np
 from utils.preprocessing import preprocess_data
 from utils.confidence_interval import confidence_interval_ui, confidence_interval_server
+from utils.linear_regression import linear_regression_ui, linear_regression_server
 
 
 app_ui = ui.page_sidebar(
@@ -76,7 +77,8 @@ app_ui = ui.page_sidebar(
 
         #TAB - Regressão linear 
         ui.nav_panel(
-            "Regressão linear"
+            "Regressão linear",
+            linear_regression_ui()
         )
         
     
@@ -192,5 +194,6 @@ def server(input, output, session):
         return stats_df
     
     confidence_interval_server(input, output, data)
+    linear_regression_server(input, output, session, data)
 
 app = App(app_ui, server)
