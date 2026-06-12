@@ -6,6 +6,7 @@ import numpy as np
 from utils.preprocessing import preprocess_data
 from utils.confidence_interval import confidence_interval_ui, confidence_interval_server
 from utils.linear_regression import linear_regression_ui, linear_regression_server
+from utils.hypothesis_test import hypothesis_test_ui, hypothesis_test_server
 
 
 app_ui = ui.page_sidebar(
@@ -67,7 +68,8 @@ app_ui = ui.page_sidebar(
         ),
         #TAB - teste de hipotese:
         ui.nav_panel(
-            "Teste de hipótese"
+            "Teste de hipótese",
+            hypothesis_test_ui()
         ),
         #TAB - Intervalo de confiança
         ui.nav_panel(
@@ -99,7 +101,7 @@ def server(input, output, session):
         df = pd.read_csv(input.file()[0]["datapath"],delimiter=';')
         df = preprocess_data(df)
         return df
-    
+
 
 
     @reactive.effect
@@ -195,5 +197,6 @@ def server(input, output, session):
     
     confidence_interval_server(input, output, data)
     linear_regression_server(input, output, session, data)
+    hypothesis_test_server(input, output, data)
 
 app = App(app_ui, server)
