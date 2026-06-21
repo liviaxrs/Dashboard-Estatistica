@@ -48,9 +48,9 @@ Os datasets incluídos na pasta `data/` foram obtidos do Kaggle:
 
 | Arquivo | Descrição | Fonte |
 |---------|-----------|-------|
-| `Consumo_Combustivel.csv` | Consumo de combustível de automóveis (Auto MPG) | [Auto-MPG Dataset](https://www.kaggle.com/datasets/uciml/autompg-dataset) |
-| `StudentsPerformance.csv` | Desempenho de estudantes em provas | [Students Performance in Exams](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams) |
-| `winequality-red.csv` | Qualidade de vinhos tintos (Cortez et al., 2009) | [Red Wine Quality](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009) |
+| `Consumo Combustiveis.csv` | Consumo de combustível de automóveis (Auto MPG) | [Auto-MPG Dataset](https://www.kaggle.com/datasets/uciml/autompg-dataset) |
+| `Performance Estudantes.csv` | Desempenho de estudantes em provas | [Students Performance in Exams](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams) |
+| `Qualidade de Vinhos.csv` | Qualidade de vinhos tintos (Cortez et al., 2009) | [Red Wine Quality](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009) |
 
 ## Instalação
 
